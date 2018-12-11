@@ -12,27 +12,52 @@ import { compose } from 'recompose';
 import { connect } from "react-redux";
 import { Form, Field } from 'react-final-form';
 
-import { saveGroceryList } from "./actions";
+import { addGroceryList } from "./actions";
 import styles from "./styles";
 
 class ListEditor extends Component {
 
+  constructor(props){
+    super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
   componentDidMount() {
   }
 
+  onSubmit(values) {
+    const { addGroceryList } = this.props;
+    if (!values.id) {
+      addGroceryList(values);
+    } else {
+      // TODO
+    }
+  }
+
+  validate(values) {
+    const errors = {};
+    if (!values.title) {
+      errors.title = "Required";
+    }
+    if (!values.notes) {
+      errors.notes = "Required";
+    }
+    return errors;
+  }
+
   render() {
-    const { classes, groceryList, saveGroceryList, history } = this.props;
+    const { classes, groceryList, history } = this.props;
 
     return (
       <Fragment>
         <Card className={classes.card}>
-          <Form initialValues={groceryList} onSubmit={saveGroceryList}>
-            {({ handleSubmit }) => (
+          <Form
+            initialValues={groceryList}
+            onSubmit={this.onSubmit}
+            validate={this.validate}>
+            {({ handleSubmit, pristine, submitting }) => (
               <form onSubmit={handleSubmit}>
                 <CardContent className={classes.cardContent}>
-                  <Field name="id">
-                    {({ input }) => <TextField label="Id" autoFocus {...input} />}
-                  </Field>
                   <Field name="title">
                     {({ input }) => <TextField className={classes.marginTop} label="Title" autoFocus {...input} />}
                   </Field>
@@ -49,7 +74,7 @@ class ListEditor extends Component {
                   </Field>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" color="primary" type="submit">Save</Button>
+                  <Button size="small" color="primary" type="submit" disabled={pristine || submitting}>Save</Button>
                   <Button size="small" onClick={() => history.goBack()}>Cancel</Button>
                 </CardActions>
               </form>
@@ -64,7 +89,7 @@ class ListEditor extends Component {
 
 function bindAction(dispatch) {
   return {
-		saveGroceryList: (groceryList) => dispatch(saveGroceryList(groceryList))
+		addGroceryList: (groceryList) => dispatch(addGroceryList(groceryList))
   };
 }
 const mapStateToProps = state => ({

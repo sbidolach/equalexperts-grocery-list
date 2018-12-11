@@ -21,13 +21,25 @@ export default {
     });
     return response;
   },
-  updateGroceryList: (token) => {
+  addGroceryList: (groceryList) => {
+    const response = fetch(`${API}/groceryList`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(groceryList)
+    });
+    return response;
+  },
+  updateGroceryList: (groceryList) => {
     const response = fetch(`${API}/groceryList`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify(groceryList)
     });
     return response;
   },

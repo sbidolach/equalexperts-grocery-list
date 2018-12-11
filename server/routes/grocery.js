@@ -11,6 +11,8 @@ module.exports = {
   },
   addList: function (req, res) {
     const newList = req.body;
+    const ids = mockDatabase.get().map(o => o.id);
+    newList.id = Math.max(...ids) + 1;
     mockDatabase.push(newList);
     res.send(mockDatabase.get());
   },

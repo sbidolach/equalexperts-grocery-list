@@ -16,7 +16,7 @@ import { orderBy } from 'lodash';
 import { compose } from 'recompose';
 import { connect } from "react-redux";
 
-import { getGroceryLists, saveGroceryList, deleteGroceryList } from "./actions";
+import { getGroceryLists, deleteGroceryList } from "./actions";
 import styles from "./styles";
 
 class HomePage extends Component {
@@ -70,7 +70,6 @@ class HomePage extends Component {
 function bindAction(dispatch) {
   return {
     getGroceryLists: () => dispatch(getGroceryLists()),
-		saveGroceryList: (groceryList) => dispatch(saveGroceryList(groceryList)),
     deleteGroceryList: (groceryList) => dispatch(deleteGroceryList(groceryList))
   };
 }

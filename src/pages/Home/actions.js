@@ -1,4 +1,5 @@
 import API from "../../helpers/api";
+import { push } from 'react-router-redux'
 
 export function dataHasErrored(bool: boolean) {
   return {
@@ -36,11 +37,18 @@ export function getGroceryLists() {
   }
 }
 
-export function saveGroceryList(groceryList) {
+export function addGroceryList(groceryList) {
   return dispatch => {
-    // TODO
-    console.log(groceryList);
-    console.log('saveGroceryList');
+    dispatch(dataIsLoading(true));
+    API.addGroceryList(groceryList)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        dispatch(push('/'));
+        dispatch(dataIsLoading(false));
+      })
+      .catch((error) => {
+        dispatch(dataHasErrored(true));
+      });
   }
 }
 

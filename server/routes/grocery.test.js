@@ -73,7 +73,6 @@ describe('Grocery Lists', () => {
         .post('/groceryList')
         .type('form')
         .send({
-          id: 3,
           title: 'title_test_3',
           notes: 'notes_test_3'
         })
